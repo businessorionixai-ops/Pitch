@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tortuga Pitch</title>
+    <style>
+        /* الأساسيات */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #1a3a1a; /* لون احتياطي */
+        }
+
+        /* الخلفية (Bg.jpg) */
+        .game-container {
+            background-image: url('Bg.jpg');
+            background-size: 100% 100%; /* باش تحترم الأبعاد تاعك */
+            background-position: center;
+            width: 100vw;
+            height: 100vh;
+            max-width: 500px; /* باش تجي شابة في المتصفح كأنها هاتف */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* اللوغو (لو كان تحب تخليه داخل الصورة ولا تزيدو وحدو) */
+        .logo {
+            margin-top: 20%;
+            width: 150px;
+        }
+
+        /* الأزرار (ستيل خشبي قريب لصورتك) */
+        .btn-container {
+            margin-top: auto;
+            margin-bottom: 30%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .action-btn {
+            background-color: #8B4513; /* بني خشبي */
+            color: white;
+            border: 4px solid #5d3112;
+            border-radius: 12px;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 200px;
+            box-shadow: 0 6px 0 #3d1f0b;
+            transition: all 0.1s;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .action-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #3d1f0b;
+        }
+
+        /* الخانات (بني وكتيبة بيضا) */
+        .input-field {
+            background-color: #5d3112;
+            color: white;
+            border: 2px solid #3d1f0b;
+            padding: 12px;
+            border-radius: 8px;
+            width: 80%;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        /* الإشعارات الخضراء */
+        .toast {
+            position: fixed;
+            top: 20px;
+            background-color: #2d5a27;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ffffff;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <div id="main-menu" class="btn-container">
+            <button class="action-btn" onclick="openSignup()">Sign up</button>
+            <button class="action-btn" onclick="openLogin()">Log in</button>
+        </div>
+
+        <div id="login-form" style="display:none; margin-top: 40%; width: 100%; text-align: center;">
+            <input type="text" placeholder="Enter ID" class="input-field">
+            <input type="password" placeholder="Enter Key" class="input-field">
+            <button class="action-btn" style="margin-top: 20px;">Start</button>
+        </div>
+    </div>
+
+    <script>
+        function openSignup() {
+            alert("Sign up logic goes here!");
+        }
+        function openLogin() {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
