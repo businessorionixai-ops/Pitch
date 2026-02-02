@@ -1,122 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tortuga Pitch</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tortuga Pitch - Gateway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* الأساسيات */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Arial', sans-serif;
-            background-color: #1a3a1a; /* لون احتياطي */
-        }
-
-        /* الخلفية (Bg.jpg) */
-        .game-container {
-            background-image: url('Bg.jpg');
-            background-size: 100% 100%; /* باش تحترم الأبعاد تاعك */
+        body {
+            background-image: url('background.jpg');
+            background-size: cover;
             background-position: center;
-            width: 100vw;
-            height: 100vh;
-            max-width: 500px; /* باش تجي شابة في المتصفح كأنها هاتف */
+            background-attachment: fixed;
+            height: 100-vh;
+            margin: 0;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            position: relative;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
         }
-
-        /* اللوغو (لو كان تحب تخليه داخل الصورة ولا تزيدو وحدو) */
-        .logo {
-            margin-top: 20%;
-            width: 150px;
-        }
-
-        /* الأزرار (ستيل خشبي قريب لصورتك) */
-        .btn-container {
-            margin-top: auto;
-            margin-bottom: 30%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            align-items: center;
-        }
-
-        .action-btn {
-            background-color: #8B4513; /* بني خشبي */
-            color: white;
-            border: 4px solid #5d3112;
-            border-radius: 12px;
-            padding: 15px 40px;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 200px;
-            box-shadow: 0 6px 0 #3d1f0b;
-            transition: all 0.1s;
-            text-shadow: 1px 1px 2px black;
-        }
-
-        .action-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #3d1f0b;
-        }
-
-        /* الخانات (بني وكتيبة بيضا) */
-        .input-field {
-            background-color: #5d3112;
-            color: white;
-            border: 2px solid #3d1f0b;
+        .custom-input {
+            background-color: #5d3112 !important;
+            color: white !important;
+            border: 2px solid #8B4513;
             padding: 12px;
             border-radius: 8px;
-            width: 80%;
-            margin: 10px 0;
+            width: 100%;
             text-align: center;
-            font-size: 18px;
+            font-weight: bold;
         }
-
-        /* الإشعارات الخضراء */
         .toast {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             background-color: #2d5a27;
             color: white;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #ffffff;
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 2px solid #5d3112;
             display: none;
             z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
+        .hidden-view { display: none; }
+        .back-btn { position: absolute; top: 20px; left: 20px; width: 50px; cursor: pointer; }
+        .btn-img { cursor: pointer; transition: transform 0.1s; max-width: 250px; }
+        .btn-img:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-    <div class="game-container">
-        <div id="main-menu" class="btn-container">
-            <button class="action-btn" onclick="openSignup()">Sign up</button>
-            <button class="action-btn" onclick="openLogin()">Log in</button>
+    <div id="toast" class="toast">
+        <span id="toast-msg"></span>
+        <button onclick="closeToast()" style="margin-left: 15px; font-weight: bold;">×</button>
+    </div>
+
+    <div class="relative z-10 w-full max-w-md text-center p-6">
+        
+        <img src="back-button.png" id="back-nav" class="back-btn hidden-view" onclick="showHome()">
+
+        <img src="logo.png" class="mx-auto mb-6" style="width: 180px;">
+
+        <div id="home-view" class="animate-in fade-in duration-500">
+            <h1 class="text-4xl font-bold text-white mb-8 drop-shadow-lg">Welcome To Tortuga Pitch</h1>
+            <img src="signup-button.png" class="btn-img mx-auto mb-4" onclick="showSignup()">
+            <img src="login-button.png" class="btn-img mx-auto" onclick="showLogin()">
         </div>
 
-        <div id="login-form" style="display:none; margin-top: 40%; width: 100%; text-align: center;">
-            <input type="text" placeholder="Enter ID" class="input-field">
-            <input type="password" placeholder="Enter Key" class="input-field">
-            <button class="action-btn" style="margin-top: 20px;">Start</button>
+        <div id="signup-view" class="hidden-view">
+            <div id="warning-step">
+                <p class="bg-red-600/80 text-white p-4 rounded mb-4 font-bold">⚠️ CRITICAL: Save your data. No recovery possible.</p>
+                <img src="confirm-button.png" class="btn-img mx-auto" onclick="generateCredentials()">
+            </div>
+            <div id="creds-step" class="hidden-view">
+                <p class="text-white mb-2">Your Pirate ID (15 Digits):</p>
+                <input type="text" id="id-field" class="custom-input mb-4" readonly onclick="copyText('id-field')">
+                <p class="text-white mb-2">Private Access Key (30 Chars):</p>
+                <input type="text" id="key-field" class="custom-input mb-6" readonly onclick="copyText('key-field')">
+                <img src="start-button.png" class="btn-img mx-auto" onclick="enterGame()">
+            </div>
         </div>
+
+        <div id="login-view" class="hidden-view">
+            <h2 class="text-2xl text-white mb-6 font-bold uppercase">Captain's Entry</h2>
+            <input type="text" placeholder="Enter ID" class="custom-input mb-4">
+            <input type="password" placeholder="Enter Private Key" class="custom-input mb-6">
+            <img src="start-button.png" class="btn-img mx-auto" onclick="enterGame()">
+        </div>
+
     </div>
 
     <script>
-        function openSignup() {
-            alert("Sign up logic goes here!");
+        function showSignup() {
+            document.getElementById('home-view').classList.add('hidden-view');
+            document.getElementById('signup-view').classList.remove('hidden-view');
+            document.getElementById('back-nav').classList.remove('hidden-view');
         }
-        function openLogin() {
-            document.getElementById('main-menu').style.display = 'none';
-            document.getElementById('login-form').style.display = 'block';
+
+        function showLogin() {
+            document.getElementById('home-view').classList.add('hidden-view');
+            document.getElementById('login-view').classList.remove('hidden-view');
+            document.getElementById('back-nav').classList.remove('hidden-view');
+        }
+
+        function showHome() {
+            document.getElementById('home-view').classList.remove('hidden-view');
+            document.getElementById('signup-view').classList.add('hidden-view');
+            document.getElementById('login-view').classList.add('hidden-view');
+            document.getElementById('back-nav').classList.add('hidden-view');
+        }
+
+        function generateCredentials() {
+            const id = Math.floor(Math.random() * 900000000000000) + 100000000000000;
+            const key = Array.from(Array(30), () => Math.random().toString(36)[2]).join('').toUpperCase();
+            
+            document.getElementById('id-field').value = id;
+            document.getElementById('key-field').value = key;
+            document.getElementById('warning-step').classList.add('hidden-view');
+            document.getElementById('creds-step').classList.remove('hidden-view');
+            showToast("Credentials Generated! Click to copy.");
+        }
+
+        function copyText(fieldId) {
+            const copyText = document.getElementById(fieldId);
+            copyText.select();
+            navigator.clipboard.writeText(copyText.value);
+            showToast("Copied to clipboard!");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4000);
+        }
+
+        function closeToast() {
+            document.getElementById('toast').style.display = 'none';
+        }
+
+        function enterGame() {
+            showToast("Setting sail to the pitch... ⚓");
         }
     </script>
 </body>
